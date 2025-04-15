@@ -1,0 +1,17 @@
+﻿{
+  "AppInfo": {
+    "AppName": "MyPyramid",
+    "Developer": "woundmee",
+    "DevDate": "10.04.2025",
+    "Version": "1.13.6",
+    "Github": "https://github.com/woundmee"
+  },
+  "Pyramid": {
+    "Orgs": [
+      "ORG1",
+      "ORG2",
+      "ORG3",
+      "ORGN"
+    ]
+  }
+}
