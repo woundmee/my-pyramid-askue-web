@@ -3,15 +3,80 @@
     "AppName": "MyPyramid",
     "Developer": "woundmee",
     "DevDate": "10.04.2025",
-    "Version": "1.13.6",
+    "Version": "1.0.0-test",
     "Github": "https://github.com/woundmee"
   },
   "Pyramid": {
+    "Rokses": [
+      "Fz",
+      "Kon",
+      "Rm"
+    ],
     "Orgs": [
-      "ORG1",
-      "ORG2",
-      "ORG3",
-      "ORGN"
-    ]
+      "ZM",
+      "ZMN",
+      "KR",
+      "MR",
+      "SR",
+      "FOT",
+      "OR",
+      "TR",
+      "CVIG",
+      "ZC",
+      "YORK",
+      "FNO",
+      "ZRO"
+    ],
+    "SoapActions":
+    {
+      "Entities": {
+        "Default": "http://www.website.ru/Integration/SomeApp/2014/10/Entities/",
+        "Step1": "http://www.website.ru/Integration/SomeApp/2014/10/Entities/RequestEntities",
+        "Step2": "http://www.website.ru/Integration/SomeApp/2014/10/Entities/FetchEntities"
+      },
+      "Archives": {
+        "Default": "null",
+        "Step1": "null",
+        "Step2": "null"
+      }
+    },
+    "Credentials": {
+      "Fz": {
+        "Fz": {
+          "Subject": "TestSubject",
+          "Username": "PyrUser",
+          "Password": "123123",
+          "Url": "https://local-web-site:8006/PyrService/SlaveEntities"
+        }
+      },
+      "Kon": {
+        "Zc": {
+          "Subject": "TestSubject",
+          "Username": "PyrUser",
+          "Password": "123123",
+          "Url": "https://local-web-site:8006/PyrService/SlaveEntities"
+        },
+        "York": {
+          "Subject": "TestSubject",
+          "Username": "PyrUser",
+          "Password": "123123",
+          "Url": "https://local-web-site:8006/PyrService/SlaveEntities"
+        }
+      },
+      "Rm": {
+        "Fon": {
+          "Subject": "TestSubject",
+          "Username": "PyrUser",
+          "Password": "123123",
+          "Url": "https://local-web-site:8006/PyrService/SlaveEntities"
+        },
+        "Zr": {
+          "Subject": "TestSubject",
+          "Username": "PyrUser",
+          "Password": "123123",
+          "Url": "https://local-web-site:8006/PyrService/SlaveEntities"
+        }
+      }
+    }
   }
 }

@@ -4,8 +4,11 @@
 ## Get latest from `dotnet new gitignore`
 
 # =========== MY FILES =========== #
+# конфигурационный-файл
 appconfig.json
-Sources/
+
+# xlsx-отчеты по контролю связи (example: org.xlsx)
+Sources/Reports
 
 # ================================ # 
 

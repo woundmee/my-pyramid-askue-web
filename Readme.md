@@ -1,8 +1,7 @@
-﻿![Version](https://img.shields.io/badge/MyPyramid-v1.13.6-6d4aff?style=for-the-badge&logo=csharp&logoColor=white)
+﻿![Version](https://img.shields.io/badge/MyPyramid-v1.30.12-6d4aff?style=for-the-badge&logo=csharp&logoColor=white)
 ![C#](https://img.shields.io/badge/.NET8-6d4aff?style=for-the-badge&logo=csharp&logoColor=white)
 ![C#](https://img.shields.io/badge/C%23-6d4aff?style=for-the-badge&logo=csharp&logoColor=white)
 ![Rider](https://img.shields.io/badge/Rider-000000.svg?style=for-the-badge&logo=Rider&logoColor=white&color=black&labelColor=crimson)
-
 
 
 # MyPyramid
@@ -19,18 +18,24 @@
 
 ## Использование:
 
-Склонируй репозиторий
+Склонировать репозиторий
 ```bash
-https://github.com/woundmee/my-pyramid-web-askue.git
+git clone https://github.com/woundmee/my-pyramid-web-askue.git
 ```
-Перейди в каталог с проектом
+Перейти в каталог с проектом
 ```bash
-cd my-pyramid-web-askue-main/
+cd my-pyramid-askue-web-main/ 
 ```
 
-Скорректировать файл `appconfig.json` (добавлен в `.gitignore`), собрать и запустить
+Скорректировать конфиг-файл `appconfig.json`, собрать и запустить
 ```bash
 vim appconfig.json  # configure
 dotnet build
 dotnet run
 ```
+
+## Журнал задач, обновлений и ошибок
+
+- Задачи, необходимые к выполнению, будут фиксироваться в [[Sources/Journals/Tasks.md|журнале задач]].
+- Добавления, обновления и различные фичи будут фиксироваться в [[Sources/Journals/Updates.md|журнале обновлений]].
+- Выявленные баги/ошибки и их статус решения будут фиксироваться в [[Sources/Journals/Bugs.md|журанале багов]].

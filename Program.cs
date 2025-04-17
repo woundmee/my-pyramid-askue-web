@@ -1,4 +1,5 @@
 using MyPyramidWeb.Extensions;
+using MyPyramidWeb.Models.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,11 +10,20 @@ builder.Services.AddControllersWithViews();
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
 builder.Services.AddServices();
+builder.Services.AddHttpClient();
 
 // Добавил свой конфиг-файл
 builder.Configuration.AddJsonFile("appconfig.json", optional: false, reloadOnChange: true);
 
+builder.Services.Configure<Dictionary<string, Dictionary<string, PyramidCredentialData>>>(
+    builder.Configuration.GetSection("Pyramid:Credentials"));
+
+builder.Services.Configure<Dictionary<string, SoapActionData>>(
+    builder.Configuration.GetSection("Pyramid:SoapActions"));
+
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -33,8 +43,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
-
 
 
 app.Run();

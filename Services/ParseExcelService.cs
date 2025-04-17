@@ -1,7 +1,6 @@
-﻿using MyPyramidWeb.Interfaces;
+﻿using MyPyramidWeb.Abstractions;
 using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Drawing.Wordprocessing;
-using MyPyramidWeb.Models.Dto;
+using MyPyramidWeb.Models.Data;
 
 namespace MyPyramidWeb.Services;
 
@@ -19,10 +18,10 @@ public class ParseExcelService : IParseExcelService
     // }
 
 
-    public List<CommercialDataDtoModel> GetTuChannelForminDevices(string org, string pathToExcelFile, string[] tu)
+    public List<CommercialData> GetTuChannelForminDevices(string org, string pathToExcelFile, string[] tu)
     {
         string path = @$"{pathToExcelFile}/{org.ToLower()}.xlsx";
-        var points = new List<CommercialDataDtoModel>();
+        var points = new List<CommercialData>();
 
         for (int i = 0; i < tu.Length; i++)
         {
@@ -36,9 +35,9 @@ public class ParseExcelService : IParseExcelService
     private string GetCellValue(IXLCell cell)
         => cell.Value.ToString() != string.Empty ? cell.Value.ToString() : "-";
 
-    private CommercialDataDtoModel PointData(string excelFile, string tu)
+    private CommercialData PointData(string excelFile, string tu)
     {
-        var message = new CommercialDataDtoModel();
+        var message = new CommercialData();
 
         if (File.Exists(excelFile))
         {
@@ -50,7 +49,7 @@ public class ParseExcelService : IParseExcelService
 
             for (int i = 6; i <= rowCount; i++)
             {
-                var pointData = new CommercialDataDtoModel
+                var pointData = new CommercialData
                 {
                     CellNamePoint = worksheet.Cell(i, 2).Value.ToString(),
                     CellMainDeviceName = GetCellValue(worksheet.Cell(i, 8)),

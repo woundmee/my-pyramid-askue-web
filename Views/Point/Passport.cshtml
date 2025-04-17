@@ -1,4 +1,4 @@
-﻿@* @model TModel *@
+﻿@model MyPyramidWeb.Models.Views.TuPassportView
 
 @{
     // Layout = null;
@@ -6,5 +6,61 @@
 
 <p class="mb-5"><a href="/" class="text-decoration-none btn border-secondary link-secondary">← Главное меню</a></p>
 
-<p>Паспорт ТУ</p>
+<h4 class="mb-5 text-secondary">Паспорт ТУ</h4>
 
+<div class="container mb-5" style="width: 40%">
+    <form method="post" asp-controller="Point" asp-action="PassportPost">
+
+        <div class="input-group flex-nowrap mb-4">
+            <span class="input-group-text border-secondary text-secondary bg-dark">Паспорт ТУ</span>
+            <input class="form-control bg-dark border-secondary text-light" name="passportTuInput" type="text"
+                   placeholder="MZ.HE.TU69, RT.CW.TU2"
+                   pattern="{1,}" title="дописать паттерн"
+                   required/>
+        </div>
+
+        <button class="btn btn-primary w-100" type="submit">Получить</button>
+
+    </form>
+
+</div>
+
+<div>
+
+    @* NOTE: Если задать несуществующую ТУ, то выплюнет эксепшн -> обработать ТУТ и вывести просто в инпут *@
+    @if (Model.TuPassportDatas.Count > 0 || Model.TuPassportDatas.Any())
+    {
+        <table class="table border-top border-secondary text-center text-light w-10">
+            <thead>
+            <tr>
+                <th class="text-secondary" scope="col">Организация</th>
+                <th class="text-secondary" scope="col">Название ТУ</th>
+                <th class="text-secondary" scope="col">Сериный номер</th>
+                <th class="text-secondary" scope="col">Установлен</th>
+                <th class="text-secondary" scope="col">Последняя замена (коммент)</th>
+                <th class="text-secondary" scope="col" title="Выписать уставки..." style="cursor: help">Уставки</th>
+            </tr>
+            </thead>
+            @foreach (var tu in Model.TuPassportDatas)
+            {
+                string tuId = tu.TuId.Split(".")[0];
+                string org = tuId.Length > 0 ? tuId : "-" ?? "null";
+                
+                <tr>
+                    <td>@org</td>
+                    <td>@tu.TuNumber</td>
+                    <td>@tu.TekonSerialNumber</td>
+                    <td>@tu.TekonInstallDate</td>
+                    <td>@tu.TekonReplacement (@tu.TekonReplacementComment)</td>
+                    <td>0/0/0/0/0/0/0</td>
+                </tr>
+            }
+
+        </table>
+    }
+    else
+    {
+        <p class="text-secondary text-center">Идентификаторы ТУ не заданы</p>
+    }
+
+</div>

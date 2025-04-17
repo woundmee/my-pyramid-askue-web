@@ -1,16 +1,8 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using System.Runtime.InteropServices.JavaScript;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Office2010.ExcelAc;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Configuration.UserSecrets;
-using MyPyramidWeb.Interfaces;
-using MyPyramidWeb.Models.Dto;
+﻿using Microsoft.AspNetCore.Mvc;
+using MyPyramidWeb.Abstractions;
+using MyPyramidWeb.Models.Data;
 using MyPyramidWeb.Models.Views;
-using MyPyramidWeb.Services;
+
 
 namespace MyPyramidWeb.Controllers;
 
@@ -19,18 +11,65 @@ public class PointController : Controller
     // private readonly IParseExcelService _excelService;
     private readonly IParseExcelService _excelService;
     private readonly IConfiguration _config;
+    // private readonly IPyramidApiService _pyramidApiService;
 
-    public PointController(IParseExcelService excelService, IConfiguration config)
+    private readonly IConfigService _configService;
+    private readonly IPyramidApiService _pyramidApiService;
+
+    // private readonly IHttpService _httpService;
+    // private readonly IXmlQueryService _xmlQueryService;
+
+
+    public PointController(
+        IParseExcelService excelService,
+        IConfiguration config,
+        IConfigService configService,
+        IPyramidApiService pyramidApiService
+        // IPyramidApiService pyramidApiService,
+        // IXmlQueryService xmlQueryService,
+    )
     {
         _excelService = excelService;
         _config = config;
+        _configService = configService;
+        _pyramidApiService = pyramidApiService;
+        // _xmlQueryService = xmlQueryService;
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> PassportPost()
+    {
+        string[] tuId = Request.Form["passportTuInput"].ToString().Replace(" ", "").Split(",");
+
+        var passportPoints = await _pyramidApiService.GetPassportTuArray(tuId);
+
+        var tuPassportData = new TuPassportView()
+        {
+            TuPassportDatas = passportPoints.ToList() ?? new List<TuPassportData>()
+        };
+
+        // Console.WriteLine("🚩🚩🚩 >>> " + string.Join(",", tuPassportData.TuPassportDatas.Select(x => x.TuNumber)));
+        
+        return View("Passport", tuPassportData);
     }
 
 
     [HttpGet]
     public IActionResult Passport()
     {
-        return View();
+        // var tuInfo = _pyramidApiService.GetPassportTU("PESH.HE.TU69");
+        // Console.WriteLine($"🚩 {tuInfo.Result}");
+        //
+        // var tuPassport = _pyramidApiService.GetPassportTU("MZ.CW.TU103");
+        //
+        // return Content($"tu passport: {tuPassport.Result.TekonInstallDate}");
+
+        var passportTuView = new TuPassportView
+        {
+            TuPassportDatas = new List<TuPassportData>()
+        };
+        
+        return View(passportTuView);
     }
 
 
@@ -39,23 +78,23 @@ public class PointController : Controller
     {
         string orgName = Request.Form["selectOrgName"].ToString();
         string[] tuNumber = Request.Form["tuNumber"].ToString().Replace(" ", "").Split(",");
-        
+
 
         string path = @"Sources/Reports/";
-        
-        List<CommercialDataDtoModel> pointData = _excelService.GetTuChannelForminDevices(orgName, path, tuNumber);
 
-        var commercialViewModel = new CommercialViewModel()
+        List<CommercialData> pointData = _excelService.GetTuChannelForminDevices(orgName, path, tuNumber);
+
+        var commercialView = new CommercialView()
         {
             PointData = pointData,
             Orgs = _config.GetSection("Pyramid:Orgs").GetChildren()
                 .Select(x => x.Value)
                 .ToArray()!
         };
-        
-        return View("Commercial", commercialViewModel);
+
+        return View("Commercial", commercialView);
     }
-    
+
     [HttpGet]
     public IActionResult Commercial()
     {
@@ -66,14 +105,14 @@ public class PointController : Controller
 
         // return View();
 
-        var commercialViewModel = new CommercialViewModel()
+        var commercialView = new CommercialView()
         {
-            PointData = new List<CommercialDataDtoModel>(),
+            PointData = new List<CommercialData>(),
             Orgs = _config.GetSection("Pyramid:Orgs").GetChildren()
                 .Select(x => x.Value)
                 .ToArray()!
         };
-        
-        return View(commercialViewModel);
+
+        return View(commercialView);
     }
 }

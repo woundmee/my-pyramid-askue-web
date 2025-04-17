@@ -1,4 +1,4 @@
-﻿@model MyPyramidWeb.Models.Views.CommercialViewModel
+﻿@model MyPyramidWeb.Models.Views.CommercialView
 
 
 
@@ -32,9 +32,9 @@
 
         <div class="input-group flex-nowrap mb-4">
             <span class="input-group-text w-25 border-secondary text-secondary bg-dark">TU</span>
-            <input required class="form-control bg-dark border-secondary text-light w-75" name="tuNumber" type="text"
+            <input class="form-control bg-dark border-secondary text-light w-75" name="tuNumber" type="text"
                    placeholder="Пример: 66(1), 75"
-                   pattern="[0-9, ()]*" title="Разрешены только цифры, пробелы и запятые."/>
+                   pattern="[^A-Za-zА-Яа-яЁё]{1,}"  title="Разрешены только цифры, пробелы, запятые и круглые скобки." required />
         </div>
 
         <button class="btn btn-primary w-100" type="submit">Получить</button>

@@ -5,6 +5,7 @@
     string developer = Config.GetSection("AppInfo:Developer").Value!;
     string version = Config.GetSection("AppInfo:Version").Value!;
     string github = Config.GetSection("AppInfo:Github").Value!;
+    string startDevDate = Config.GetSection("AppInfo:DevDate").Value!;
 }
 
 
@@ -34,7 +35,7 @@
     </tr>
     <tr>
         <td class="text-secondary">Начало</td>
-        <td>10.04.2025</td>
+        <td>@startDevDate</td>
     </tr>
 </table>
 

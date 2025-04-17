@@ -1,8 +1,7 @@
-﻿using System.Reflection.Metadata.Ecma335;
+﻿
+namespace MyPyramidWeb.Models.Data;
 
-namespace MyPyramidWeb.Models.Dto;
-
-public class CommercialDataDtoModel
+public class CommercialData
 {
     public string CellNamePoint { get; set; } = "";
     public string CellMainDeviceName { get; set; } = "";
