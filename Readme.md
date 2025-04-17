@@ -36,6 +36,6 @@ dotnet run
 
 ## Журнал задач, обновлений и ошибок
 
-- Задачи, необходимые к выполнению, будут фиксироваться в [[Sources/Journals/Tasks.md|журнале задач]].
-- Добавления, обновления и различные фичи будут фиксироваться в [[Sources/Journals/Updates.md|журнале обновлений]].
-- Выявленные баги/ошибки и их статус решения будут фиксироваться в [[Sources/Journals/Bugs.md|журанале багов]].
+- Задачи, необходимые к выполнению, будут фиксироваться в [[https://github.com/woundmee/my-pyramid-askue-web/blob/f26332e1d7a12a6591cf30b58c46b6a841674e71/Sources/Journals/Tasks.md|журнале задач]].
+- Добавления, обновления и различные фичи будут фиксироваться в [[https://github.com/woundmee/my-pyramid-askue-web/blob/f26332e1d7a12a6591cf30b58c46b6a841674e71/Sources/Journals/Updates.md|журнале обновлений]].
+- Выявленные баги/ошибки и их статус решения будут фиксироваться в [[https://github.com/woundmee/my-pyramid-askue-web/blob/f26332e1d7a12a6591cf30b58c46b6a841674e71/Sources/Journals/Bugs.md|журанале багов]].
