@@ -4,5 +4,6 @@ namespace MyPyramidWeb.Abstractions;
 
 public interface IParseExcelService : IParseService
 {
-    List<CommercialData> GetTuChannelForminDevices(string org, string pathToExcelFile, string[] tu);
+    List<CommercialData> ParseDevices(string org, string pathToExcelFile, string[] tu);
+    List<PyramidUserData> ParsePyramidUsers();
 }

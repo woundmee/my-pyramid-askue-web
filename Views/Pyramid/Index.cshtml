@@ -1,0 +1,56 @@
+﻿@{
+    // ViewData["Title"] = "Home Page";
+}
+
+<div class="container my-container h-100">
+    <div class="box w-100" style="width: 50rem !important;">
+        <p>
+            <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor"
+                 class="bi bi-triangle-half text-primary"
+                 viewBox="0 0 16 16">
+                <path
+                    d="M8.065 2.016A.13.13 0 0 0 8.002 2v11.983l6.856.017a.12.12 0 0 0 .066-.017.2.2 0 0 0 .054-.06.18.18 0 0 0-.002-.183L8.12 2.073a.15.15 0 0 0-.054-.057zm-1.043-.45a1.13 1.13 0 0 1 1.96 0l6.856 11.667c.458.778-.091 1.767-.98 1.767H1.146c-.889 0-1.437-.99-.98-1.767z"/>
+            </svg>
+        </p>
+
+        <p class="text-light h1" style="font-family: 'JetBrains Mono', 'Segoe UI', sans-serif">MyPyramid</p>
+        <p class="text-secondary h6 mb-5" style="font-family: 'JetBrains Mono', 'Segoe UI', sans-serif">Помощник при
+            работе с ПО "Пирамида 2.0"</p>
+
+        <a href="/point/passport"
+           class="link-light text-decoration-none btn btn-outline-primary border-secondary w-75 m-md-2">Паспорт ТУ</a>
+        <a href="/point/commercial"
+           class="link-light text-decoration-none btn btn-outline-primary border-secondary w-75 m-md-2">Коммерческий
+            учет</a>
+        <a href="#"
+           class="link-light text-decoration-none btn btn-outline-primary border-secondary w-75 m-md-2 disabled text-secondary">Неработающие
+            ТУ</a>
+        <a href="/pyramid/users"
+           class="link-light text-decoration-none btn btn-outline-primary border-secondary w-75 m-md-2">Пользователи</a>
+        <form method="post" asp-controller="Pyramid" asp-action="UpdateReports">
+            <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="submit"
+                    class="link-light text-decoration-none btn btn-outline-primary border-secondary w-75 m-md-2 text-secondary text-light-hover">
+                Обновить отчеты
+            </button>
+        </form>
+        <a href="/pyramid/about"
+           class="text-decoration-none btn btn-outline-primary border-secondary w-75 m-md-2 text-secondary text-light-hover">О
+            приложении</a>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark">
+            <div class="modal-body text-light">
+
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="">Подождите, обновляются отчетные формы...</p>
+            </div>
+        </div>
+    </div>
+</div>

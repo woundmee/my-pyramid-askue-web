@@ -57,13 +57,6 @@ public class PointController : Controller
     [HttpGet]
     public IActionResult Passport()
     {
-        // var tuInfo = _pyramidApiService.GetPassportTU("PESH.HE.TU69");
-        // Console.WriteLine($"🚩 {tuInfo.Result}");
-        //
-        // var tuPassport = _pyramidApiService.GetPassportTU("MZ.CW.TU103");
-        //
-        // return Content($"tu passport: {tuPassport.Result.TekonInstallDate}");
-
         var passportTuView = new TuPassportView
         {
             TuPassportDatas = new List<TuPassportData>()
@@ -80,9 +73,9 @@ public class PointController : Controller
         string[] tuNumber = Request.Form["tuNumber"].ToString().Replace(" ", "").Split(",");
 
 
-        string path = @"Sources/Reports/";
+        string path = @"Sources/Reports/NetControl";
 
-        List<CommercialData> pointData = _excelService.GetTuChannelForminDevices(orgName, path, tuNumber);
+        List<CommercialData> pointData = _excelService.ParseDevices(orgName, path, tuNumber);
 
         var commercialView = new CommercialView()
         {
@@ -98,13 +91,6 @@ public class PointController : Controller
     [HttpGet]
     public IActionResult Commercial()
     {
-        // var orgs = _config.GetSection("Pyramid:Orgs").GetChildren();
-        //
-        // ViewBag.pointData = TempData["pointData"];
-        // ViewBag.orgs = orgs.Select(x => x.Value).ToArray();
-
-        // return View();
-
         var commercialView = new CommercialView()
         {
             PointData = new List<CommercialData>(),

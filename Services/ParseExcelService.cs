@@ -1,24 +1,87 @@
 ﻿using MyPyramidWeb.Abstractions;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Drawing.Wordprocessing;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using DocumentFormat.OpenXml.Spreadsheet;
 using MyPyramidWeb.Models.Data;
 
 namespace MyPyramidWeb.Services;
 
 public class ParseExcelService : IParseExcelService
 {
-    // public List<string> GetTuChannelForminDevices(string org, string pathToExcelFiles, string[] tu)
-    // {
-    //     string path = @$"{pathToExcelFiles}/{org.ToLower()}.xlsx";
-    //     var points = new List<string>();
-    //
-    //     for (int i = 0; i < tu.Length; i++)
-    //         points.Add(PointData(path, tu[i]));
-    //     
-    //     return points;
-    // }
+    private readonly IConfigService _configService;
+
+    public ParseExcelService(IConfigService configService)
+        => _configService = configService;
+
+    public List<PyramidUserData> ParsePyramidUsers()
+    {
+        var pyramidUsers = new List<PyramidUserData>();
+
+        foreach (var org in _configService.GetOrgs())
+        {
+            var users = ParsePyramidUser(
+                @$"Sources/Reports/PyramidUsers/{org.ToLower()}.xlsx", org);
+            foreach (var user in users)
+            {
+                pyramidUsers.Add(user);
+            }
+        }
+
+        return pyramidUsers;
+    }
 
 
-    public List<CommercialData> GetTuChannelForminDevices(string org, string pathToExcelFile, string[] tu)
+    private List<PyramidUserData> ParsePyramidUser(string excelFile, string orgName)
+    {
+        if (File.Exists(excelFile))
+        {
+            var users = new List<PyramidUserData>();
+
+            using var workbook = new XLWorkbook(excelFile);
+            var worksheet = workbook.Worksheet("Лист1");
+
+            // int rowCount = worksheet.Rows().Count() + 1; // max rows
+            int rowCount = worksheet.RowsUsed().Count();
+
+            try
+            {
+                for (int i = 2; i <= rowCount; i++)
+                {
+                    string patronymic = GetCellValue(worksheet.Cell(i, 5));
+                    string login = GetCellValue(worksheet.Cell(i, 2));
+                    string email = login + "@nornik.ru; ";
+
+                    // 🚩 BUG: некорректно отрабатывает. Починить.
+                    // if (_configService.GetExcludedMails().Contains(login))
+                    //     email = "";
+
+                    var pyramidUser = new PyramidUserData()
+                    {
+                        Organization = orgName,
+                        Login = GetCellValue(worksheet.Cell(i, 2)),
+                        Email = email, //GetCellValue(worksheet.Cell(i, 2)) + "@nornik.ru; ",
+                        SurName = GetCellValue(worksheet.Cell(i, 3)),
+                        Name = GetCellValue(worksheet.Cell(i, 4)),
+                        Patronymic = patronymic == "" ? "-" : patronymic
+                    };
+                    users.Add(pyramidUser);
+                }
+
+                return users;
+            }
+            catch
+            {
+                throw new Exception("🚩 Пользователь не найден.");
+            }
+        }
+
+        return new List<PyramidUserData>();
+        // throw new ArgumentException("🚩 Excel-файл не найден или не существует.");
+    }
+
+
+    public List<CommercialData> ParseDevices(string org, string pathToExcelFile, string[] tu)
     {
         string path = @$"{pathToExcelFile}/{org.ToLower()}.xlsx";
         var points = new List<CommercialData>();
@@ -69,40 +132,4 @@ public class ParseExcelService : IParseExcelService
         message.Message = "Файл не существует или задан неправильный путь.";
         return message;
     }
-
-    // private string PointData(string excelFile, string tu)
-    // {
-    //     if (File.Exists(excelFile))
-    //     {
-    //         using var workbook = new XLWorkbook(excelFile);
-    //         var worksheet = workbook.Worksheet("Лист1");
-    //
-    //         int rowCount = worksheet.Rows().Count() + 1; // max rows
-    //
-    //         for (int i = 6; i <= rowCount; i++)
-    //         {
-    //             string cellNamePoint = worksheet.Cell(i, 2).Value.ToString();
-    //             string cellMainDeviceName = GetCellValue(worksheet.Cell(i, 8));
-    //             string cellMainDeviceIp = GetCellValue(worksheet.Cell(i, 9));
-    //             string cellReserveDeviceName = GetCellValue(worksheet.Cell(i, 13));
-    //             string cellReserveDeviceIp = GetCellValue(worksheet.Cell(i, 14));
-    //             
-    //             if (tu.Contains("ТУ")) 
-    //                 tu = tu.Replace("ТУ", "");
-    //             
-    //             if (cellNamePoint.Contains("ТУ" + tu))
-    //             {
-    //                 string result = $"{cellNamePoint}," +
-    //                                 $"{cellMainDeviceName}," +
-    //                                 $"{cellMainDeviceIp}," +
-    //                                 $"{cellReserveDeviceName}," +
-    //                                 $"{cellReserveDeviceIp}";
-    //
-    //                 return result;
-    //             }
-    //         }
-    //         return "ТУ не найдена...";
-    //     }
-    //     return "Файл не существует или задан неправильный путь.";
-    // }
 }

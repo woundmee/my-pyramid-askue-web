@@ -38,7 +38,7 @@ public class PyramidApiService : IPyramidApiService
 
         // TuPassportData tuPassport = new TuPassportData();
         var tuPassportList = new List<TuPassportData>();
-        
+
         for (int i = 0; i < tuLength; i++)
         {
             var passportTu = await GetPassportTU(tu[i]);
@@ -52,17 +52,17 @@ public class PyramidApiService : IPyramidApiService
                 TekonReplacement = passportTu.TekonReplacement,
                 TekonReplacementComment = passportTu.TekonReplacementComment
             };
-        
+
             tuPassportList.Add(tuPassport);
         }
-        
+
         return tuPassportList.ToArray();
-        
+
 
         // throw new Exception("🚩 [временно] Какая-то ошибка... Узнать и обработать :)");
     }
 
-    public async Task<TuPassportData> GetPassportTU(string tu)
+    private async Task<TuPassportData> GetPassportTU(string tu)
     {
         using var httpClient = _httpClientFactory.CreateClient();
         var rokses = _configService.GetPyramidCredentials();

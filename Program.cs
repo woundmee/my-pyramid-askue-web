@@ -21,6 +21,7 @@ builder.Services.Configure<Dictionary<string, Dictionary<string, PyramidCredenti
 builder.Services.Configure<Dictionary<string, SoapActionData>>(
     builder.Configuration.GetSection("Pyramid:SoapActions"));
 
+builder.Services.Configure<AppInfoData>(builder.Configuration.GetSection("App:Info"));
 
 var app = builder.Build();
 
@@ -28,7 +29,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Pyramid/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
@@ -36,13 +37,14 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseHostFiltering();
+
 app.UseRouting();
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
+    pattern: "{controller=Pyramid}/{action=Index}/{id?}");
 
 app.Run();

@@ -11,7 +11,7 @@
 
 <p class="mb-5"><a href="/" class="text-decoration-none btn border-secondary link-secondary">← Главное меню</a></p>
 
-<div class="container mb-5" style="width: 40%">
+<div class="container mb-5" style="width: 30rem">
 
     <form method="post" asp-controller="Point" asp-action="CommercialPost">
 
@@ -35,6 +35,13 @@
             <input class="form-control bg-dark border-secondary text-light w-75" name="tuNumber" type="text"
                    placeholder="Пример: 66(1), 75"
                    pattern="[^A-Za-zА-Яа-яЁё]{1,}"  title="Разрешены только цифры, пробелы, запятые и круглые скобки." required />
+        </div>
+
+        <div class="form-check-label mb-4">
+            <input class="form-check-input mt-1 p-2 me-1" style="cursor: pointer" type="checkbox" value="" id="checkDefault">
+            <label class="form-check-label" style="cursor: pointer" for="checkDefault">
+                Секретные данные
+            </label>
         </div>
 
         <button class="btn btn-primary w-100" type="submit">Получить</button>
@@ -70,15 +77,6 @@
                 <td>@Html.Raw(reserveDeviceName.Length > 1 ? reserveDeviceName[1] : "-")</td>
                 <td>@Html.Raw(reserveDeviceIp.Length > 0 ? reserveDeviceIp[0] : "-")</td>
                 <td>@Html.Raw(reserveDeviceIp.Length > 1 ? reserveDeviceIp[1] : "-")</td>
-
-                @* <td>@point.CellMainDeviceName.Split(",")[1]</td> *@
-                @* <td>@point.CellMainDeviceIp.Split(",")[0]</td> *@
-                @* <td>@point.CellMainDeviceIp.Split(",")[1]</td> *@
-                @* <td>@point.CellReserveDeviceName.Split(",")[0]</td> *@
-                @* <td>@point.CellReserveDeviceName.Split(",")[1]</td> *@
-                @* <td>@point.CellReserveDeviceIp.Split(",")[0]</td> *@
-                @* <td>@point.CellReserveDeviceIp.Split(",")[1]</td> *@
-
 
                 @* <td class="text-light">@Html.Raw(pointSplit.Length > 8 ? pointSplit[8].Trim() : "")</td> *@
 

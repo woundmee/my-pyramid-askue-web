@@ -14,6 +14,7 @@ public static class ServicesRegistrationExtension
         services.AddScoped<IXmlQueryService, XmlQueryService>();
         services.AddScoped<IPyramidApiService, PyramidApiService>();
         services.AddScoped<IConfigService, ConfigService>();
+        services.AddScoped<IFileOperationsService, FileOperationsService>();
         
         return services;
     }

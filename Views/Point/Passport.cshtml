@@ -6,9 +6,9 @@
 
 <p class="mb-5"><a href="/" class="text-decoration-none btn border-secondary link-secondary">← Главное меню</a></p>
 
-<h4 class="mb-5 text-secondary">Паспорт ТУ</h4>
+@* <h4 class="mb-5 text-secondary">Паспорт ТУ</h4> *@
 
-<div class="container mb-5" style="width: 40%">
+<div class="container m-auto position-relative mb-5" style="width: 30rem">
     <form method="post" asp-controller="Point" asp-action="PassportPost">
 
         <div class="input-group flex-nowrap mb-4">
@@ -25,7 +25,7 @@
 
 </div>
 
-<div>
+<div class="m-auto position-relative">
 
     @* NOTE: Если задать несуществующую ТУ, то выплюнет эксепшн -> обработать ТУТ и вывести просто в инпут *@
     @if (Model.TuPassportDatas.Count > 0 || Model.TuPassportDatas.Any())

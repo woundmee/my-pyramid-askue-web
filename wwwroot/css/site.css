@@ -1,3 +1,48 @@
+
+.text-light-hover:hover
+{
+  color: #f8f9fa !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+.my-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 94vh;
+  /*background-color: gray;*/
+}
+.box {
+  /*width: 100%; !* Ширина блока *!*/
+  /*max-width: 100%; !* Максимальная ширина блока *!*/
+  padding: 20px;
+  /*background-color: #6a1a21;*/
+  color: white;
+  text-align: center;
+
+  max-height: 90vh; /* Максимальная высота блока */
+
+  /* scrollbar */
+  overflow-y: auto;
+  scrollbar-color: royalblue transparent;
+  scrollbar-width: thin;
+}
+
+footer {
+  text-align: center;
+  /*padding: 10px;*/
+  background-color: #333;
+  color: white;
+}
+
+
 html {
   font-size: 14px;
 }

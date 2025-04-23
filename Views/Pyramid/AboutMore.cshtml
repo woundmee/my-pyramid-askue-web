@@ -1,0 +1,69 @@
+﻿@inject IConfiguration Config;
+@{
+    string version = "v" + Config.GetValue<string>("App:Info:Version")!;
+}
+
+@* <h5 class="mb-5 text-secondary">О пириложении</h5> *@
+
+<div class="container text-start">
+    <a href="/" class="mb-5 text-decoration-none btn border-secondary link-secondary">← Главное меню</a>
+
+    <p><img src="https://img.shields.io/badge/MyPyramid-@version-6d4aff?style=for-the-badge&logo=csharp&logoColor=white"
+            alt="Version">
+        <img src="https://img.shields.io/badge/.NET8-6d4aff?style=for-the-badge&logo=csharp&logoColor=white" alt="C#">
+        <img src="https://img.shields.io/badge/C%23-6d4aff?style=for-the-badge&logo=csharp&logoColor=white" alt="C#">
+        <img
+            src="https://img.shields.io/badge/Rider-000000.svg?style=for-the-badge&logo=Rider&logoColor=white&color=black&labelColor=crimson"
+            alt="Rider"></p>
+    <h1 id="mypyramid">MyPyramid</h1>
+    <p>Помощник при работе с ПО &quot;Пирамида 2.0&quot;. Основные возможности приложения:</p>
+    <ul>
+        <li>Взаимодействие с API</li>
+        <li>Парсинг XML/Excel-документов</li>
+        <li>Информация об основных и резервных каналах</li>
+        <li>Информация из паспорта ТУ и т.д.</li>
+    </ul>
+    <p>Веб-версия разработана взамен <a href="https://github.com/woundmee/my-pyramid-askue">консольной версии.</a> Из
+        преимуществ:</p>
+    <ul>
+        <li>Красивый дизайн</li>
+        <li>Удобство при работе</li>
+        <li>Расширенный функционал</li>
+    </ul>
+
+    <br/>
+    <h2 id="использование">Использование:</h2>
+    <hr class="w-50">
+    <p>Склонировать репозиторий</p>
+    <code class="language-bash">$> git clone https://github.com/woundmee/my-pyramid-web-askue.git</code>
+    <p>Перейти в каталог с проектом</p>
+    <code class="language-bash">$> cd my-pyramid-askue-web-main/</code>
+    <p>Скорректировать конфиг-файл <code>appconfig.json</code>, собрать и запустить</p>
+    <code class="language-bash">$> vim appconfig.json  <span class="text-success"># configure</span><br>
+        $> dotnet build <br>
+        $> dotnet run
+    </code>
+
+    <br/>
+    <br/>
+    <h2 id="журнал-задач-обновлений-и-ошибок">Журнал задач, обновлений и ошибок</h2>
+    <hr class="w-50">
+    <ul>
+        <li>Задачи, необходимые к выполнению, будут фиксироваться в <a
+                href="https://github.com/woundmee/my-pyramid-askue-web/blob/f26332e1d7a12a6591cf30b58c46b6a841674e71/Sources/Journals/Tasks.md">журнале
+                задач</a>.
+        </li>
+        <li>Добавления, обновления и различные фичи будут фиксироваться в <a
+                href="https://github.com/woundmee/my-pyramid-askue-web/blob/f26332e1d7a12a6591cf30b58c46b6a841674e71/Sources/Journals/Updates.md">журнале
+                обновлений</a>.
+        </li>
+        <li>Выявленные баги/ошибки и их статус решения будут фиксироваться в <a
+                href="https://github.com/woundmee/my-pyramid-askue-web/blob/f26332e1d7a12a6591cf30b58c46b6a841674e71/Sources/Journals/Bugs.md">журанале
+                багов</a>.
+        </li>
+    </ul>
+
+</div>
+
+
+

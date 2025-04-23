@@ -19,7 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Sources\Reports\" />
+    <Folder Include="Sources\Reports\NetControl\" />
+    <Folder Include="Sources\Reports\PyramidUsers\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +30,10 @@
     <Content Update="appconfig-example.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\icons\excel-logo.svg" />
   </ItemGroup>
 
 </Project>
