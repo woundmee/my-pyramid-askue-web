@@ -1,35 +1,26 @@
-﻿@inject MyPyramidWeb.Abstractions.IParseExcelService ParseExcelService;
+﻿@inject MyPyramidWeb.Abstractions.IParseService ParseService
 @{
-    // List<string> userEmailsList = new List<string>();
     List<string> userEmails = new List<string>();
-    //
-    //
-    // // 🚩 BUG: сделать исключения для ненужных пользователей
-    // foreach (var login in ParseExcelService.ParsePyramidUsers().Select(x => x.Login))
-    // {
-    //     string email = login + "@nornik.ru; ";
-    //     userEmailsList.Add(email);
-    // }
-    //
-    // userEmails = string.Join(";", userEmailsList);
-    // Console.WriteLine(userEmails.Length);
+    int usersCount = ParseService.GetPyramidUsers().Count;
 }
 <p class="mt-5"><a href="/" class="text-decoration-none btn border-secondary link-secondary mb-4">← Главное меню</a></p>
 
-<button class="mb-5 btn btn-success pe-lg-3 pt-2 me-1 disabled">
-    <img src="~/icons/excel-logo.svg" alt="Excel Logo" width="30" height="25"/>
-    Сохранить в Excel
-</button>
+<form method="get" asp-controller="Pyramid" asp-action="SavePyramidUsersInExcel">
+    <button type="submit" class="mb-5 btn btn-success pe-lg-3 pt-2 me-1">
+        <img src="~/icons/excel-logo.svg" alt="Excel Logo" width="30" height="25"/>
+        Сохранить в Excel
+    </button>
 
-<button id="mailingUsersButton" class="mb-5 btn btn-light pe-lg-3 pt-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    <img src="~/icons/share-icon.svg" alt="Email icon" width="20" height="25"/>
-    Сделать рассылку
-</button>
-
+    <button type="button" id="mailingUsersButton" class="mb-5 btn btn-light pe-lg-3 pt-2" data-bs-toggle="modal"
+            data-bs-target="#exampleModal">
+        <img src="~/icons/share-icon.svg" alt="Email icon" width="20" height="25"/>
+        Сделать рассылку
+    </button>
+</form>
 <table class="table table-striped table-dark table-bordered border-secondary text-light">
     <thead>
     <tr>
-        <th class="text-secondary h4 text-center" scope="col" colspan="6">Пользователи АСКУЭ</th>
+        <th class="text-secondary h4 text-center" scope="col" colspan="6">Пользователи АСКУЭ (@usersCount)</th>
     </tr>
     <tr>
         <th class="text-secondary" scope="col">Организация</th>
@@ -40,8 +31,9 @@
         <th class="text-secondary" scope="col">Email</th>
     </tr>
     </thead>
-    @foreach (var user in ParseExcelService.ParsePyramidUsers())
+    @foreach (var user in ParseService.GetPyramidUsers())
     {
+        // 🚩 BUG: сделать исключения для ненужных пользователей
         userEmails.Add(user.Email);
         <tr>
             <td>@user.Organization</td>
@@ -62,14 +54,19 @@
         <div class="modal-content bg-dark">
             <div class="modal-header border-secondary">
                 <h1 class="modal-title fs-5 text-secondary" id="exampleModalLabel">Информация</h1>
-                <button type="button" class="btn-close bg-secondary" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close bg-secondary" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
             <div class="modal-body text-lg-start">
-                В связи с ограничением кол-ва символов для тега <code>mailto (2000)</code>, вынужден прибегнуть к костылю.
-                Чтобы отправить рассылку, скопируй нижеприведенный список email-адресов пользователей АСКУЭ <code>(ctrl+A, ctrl+C)</code> и в открывшемся почтовом клиенте просто вставьте в поле "<b>Кому...</b>".
-                
+                В связи с ограничением кол-ва символов для тега <code>mailto (2000)</code>, вынужден прибегнуть к
+                костылю.
+                Чтобы отправить рассылку, скопируй нижеприведенный список email-адресов пользователей АСКУЭ <code>(ctrl+A,
+                    ctrl+C)</code> и в открывшемся почтовом клиенте просто вставьте в поле "<b>Кому...</b>".
+
                 <div class="form-floating mt-3">
-                    <textarea class="form-control text-secondary bg-black" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px">@string.Join("", @userEmails.Distinct())</textarea>
+                    <textarea class="form-control text-secondary bg-black" placeholder="Leave a comment here"
+                              id="floatingTextarea2"
+                              style="height: 100px">@string.Join("", @userEmails.Distinct())</textarea>
                     <label for="floatingTextarea2">Пользователи АСКУЭ</label>
                 </div>
             </div>

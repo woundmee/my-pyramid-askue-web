@@ -7,27 +7,27 @@ namespace MyPyramidWeb.Services;
 public class PyramidApiService : IPyramidApiService
 {
     private readonly IConfiguration _config;
-    private readonly IParseXmlService _xmlParseService;
     private readonly IHttpService _httpService;
     private readonly IXmlQueryService _xmlQueryService;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IConfigService _configService;
+    private readonly IParseService _parseService;
 
     public PyramidApiService(
         IConfiguration config,
-        IParseXmlService xmlParseService,
         IXmlQueryService xmlQueryService,
         IHttpService httpService,
         IHttpClientFactory httpClientFactory,
-        IConfigService configService
+        IConfigService configService,
+        IParseService parseService
     )
     {
         _config = config;
-        _xmlParseService = xmlParseService;
         _xmlQueryService = xmlQueryService;
         _httpService = httpService;
         _httpClientFactory = httpClientFactory;
         _configService = configService;
+        _parseService = parseService;
     }
 
     // MAIN //////////////////////
@@ -41,7 +41,7 @@ public class PyramidApiService : IPyramidApiService
 
         for (int i = 0; i < tuLength; i++)
         {
-            var passportTu = await GetPassportTU(tu[i]);
+            var passportTu = await GetPassportTu(tu[i]);
             var tuPassport = new TuPassportData
             {
                 TuId = passportTu.TuId,
@@ -62,7 +62,7 @@ public class PyramidApiService : IPyramidApiService
         // throw new Exception("🚩 [временно] Какая-то ошибка... Узнать и обработать :)");
     }
 
-    private async Task<TuPassportData> GetPassportTU(string tu)
+    private async Task<TuPassportData> GetPassportTu(string tu)
     {
         using var httpClient = _httpClientFactory.CreateClient();
         var rokses = _configService.GetPyramidCredentials();
@@ -71,7 +71,7 @@ public class PyramidApiService : IPyramidApiService
         {
             foreach (var cred in roks.Value)
             {
-                Console.WriteLine($"🔸🔸🔸 ::: {cred.Value.Subject}");
+                // Console.WriteLine($"🔸🔸🔸 ::: {cred.Value.Subject}");
                 try
                 {
                     var parameters = SetParametersFromRequestEntities(
@@ -93,9 +93,7 @@ public class PyramidApiService : IPyramidApiService
                     int entityDataXmlLength = entityDataXml.Content.ReadAsStringAsync().Result.Length;
                     if (entityDataXmlLength < 500) continue;
 
-                    var entityData = _xmlParseService.EntitiesDataParse(
-                        await entityDataXml.Content.ReadAsStringAsync());
-
+                    var entityData = _parseService.GetTuPassport(await entityDataXml.Content.ReadAsStringAsync());
                     return entityData;
                 }
                 catch (InvalidOperationException ioEx)
@@ -106,12 +104,12 @@ public class PyramidApiService : IPyramidApiService
                 catch (AggregateException aggEx)
                 {
                     foreach (var error in aggEx.InnerExceptions)
-                        throw new AggregateException($"🚩 Ошибка при обработке {cred.Value.Subject}: {error.Message}");
+                        throw new AggregateException($"Ошибка при обработке {cred.Value.Subject}: {error.Message}");
                 }
             }
         }
 
-        throw new InvalidOperationException("🚩 Данные отсутствуют или заданы неправильно!");
+        throw new InvalidOperationException("Данные отсутствуют или заданы неправильно!");
     }
 
 
@@ -122,7 +120,7 @@ public class PyramidApiService : IPyramidApiService
             .Result.Content.ReadAsStringAsync();
 
         // Console.WriteLine("\n >> resp: " + response);
-        int requestId = _xmlParseService.RequestIdParse(response);
+        int requestId = _parseService.GetRequestId(response);
         return requestId;
     }
 
@@ -133,25 +131,6 @@ public class PyramidApiService : IPyramidApiService
                    .Where(x => x.Key == "Entities")
                    .Select(x => soapActionSelector.Invoke(x.Value)).FirstOrDefault()
                ?? throw new ArgumentNullException("🚩 По ключу отсутствует SoapAction");
-
-
-        var soapAction = _config.GetSection("SoapActionEntities").GetChildren()
-            .Select(x => new SoapActionData()
-            {
-                Step1 = x.Value,
-                Step2 = x.Value
-            })
-            .Select(soapActionSelector)
-            .FirstOrDefault();
-
-        Console.WriteLine($"❌❌ {soapAction}");
-
-        return soapAction ?? throw new Exception("🚩 SoapAction is null!");
-
-        // return _config.GetSoapActions()
-        //            .Where(x => x.Key == "soapActionEntities")
-        //            .Select(x => soapActionSelector.Invoke(x.Value)).FirstOrDefault()
-        //        ?? throw new ArgumentNullException("По ключу отсутствует SoapAction");
     }
 
     private SendRequestParametersData SetParametersFromRequestEntities(

@@ -1,4 +1,6 @@
-﻿namespace MyPyramidWeb.Abstractions;
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace MyPyramidWeb.Abstractions;
 
 public interface IFileOperationsService
 {
@@ -8,4 +10,5 @@ public interface IFileOperationsService
     /// <param name="destinationFolder">Конечный каталог, куда необходимо сохранить файл</param>
     void CopyExcelReportsToProject(string configNodeName, string destinationFolder, string filename, string fileExtension);
 
+    void SaveExcelDocumentWithUsers(MemoryStream stream);
 }

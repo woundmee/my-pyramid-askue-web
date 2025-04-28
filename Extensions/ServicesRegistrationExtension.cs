@@ -1,4 +1,5 @@
-﻿using MyPyramidWeb.Abstractions;
+﻿using System.Xml;
+using MyPyramidWeb.Abstractions;
 using MyPyramidWeb.Models.Data;
 using MyPyramidWeb.Services;
 
@@ -8,10 +9,9 @@ public static class ServicesRegistrationExtension
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
     {   
-        services.AddScoped<IParseExcelService, ParseExcelService>();
-        services.AddScoped<IParseXmlService, ParseXmlService>();
-        services.AddScoped<IHttpService, HttpService>();
+        services.AddScoped<IParseService, ParseService>();
         services.AddScoped<IXmlQueryService, XmlQueryService>();
+        services.AddScoped<IHttpService, HttpService>();
         services.AddScoped<IPyramidApiService, PyramidApiService>();
         services.AddScoped<IConfigService, ConfigService>();
         services.AddScoped<IFileOperationsService, FileOperationsService>();

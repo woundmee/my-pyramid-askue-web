@@ -16,12 +16,12 @@ public class PyramidController : Controller
     // }
 
     private readonly IFileOperationsService _fileOperations;
-    private readonly IParseExcelService _parseExcelService;
+    private readonly IParseService _parseService; 
 
-    public PyramidController(IFileOperationsService fileOperations, IParseExcelService parseExcelService)
+    public PyramidController(IFileOperationsService fileOperations, IParseService parseService)
     {
         _fileOperations = fileOperations;
-        _parseExcelService = parseExcelService;
+        _parseService = parseService;
     }
 
 
@@ -39,14 +39,14 @@ public class PyramidController : Controller
     {
         return View();
     }
-    
+
     public IActionResult Users()
     {
-        _parseExcelService.ParsePyramidUsers();
+        _parseService.GetPyramidUsers();
         return View();
     }
-    
-    
+
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
@@ -61,13 +61,27 @@ public class PyramidController : Controller
             "NetControl",
             "Контроль связи",
             "xlsx");
-        
+
         _fileOperations.CopyExcelReportsToProject(
             "App:ZabbixShare",
             "PyramidUsers",
             "Пользователи АСКУЭ",
             "xlsx");
-        
+
         return RedirectToAction("Index");
+    }
+
+
+    [HttpGet("Download")]
+    public IActionResult SavePyramidUsersInExcel()
+    {
+        var stream = new MemoryStream();
+        _fileOperations.SaveExcelDocumentWithUsers(stream);
+        
+        return File(stream, 
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+            "Пользователи АСКУЭ.xlsx");
+        
+        // return RedirectToAction("Users");
     }
 }

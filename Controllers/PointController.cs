@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Mvc;
 using MyPyramidWeb.Abstractions;
 using MyPyramidWeb.Models.Data;
 using MyPyramidWeb.Models.Views;
@@ -8,30 +9,21 @@ namespace MyPyramidWeb.Controllers;
 
 public class PointController : Controller
 {
-    // private readonly IParseExcelService _excelService;
-    private readonly IParseExcelService _excelService;
-    private readonly IConfiguration _config;
-    // private readonly IPyramidApiService _pyramidApiService;
-
-    private readonly IConfigService _configService;
+    private readonly IConfiguration _configuration;
+    private readonly IParseService _parseService;
     private readonly IPyramidApiService _pyramidApiService;
-
-    // private readonly IHttpService _httpService;
-    // private readonly IXmlQueryService _xmlQueryService;
 
 
     public PointController(
-        IParseExcelService excelService,
-        IConfiguration config,
-        IConfigService configService,
+        IConfiguration configuration,
+        IParseService parseService,
         IPyramidApiService pyramidApiService
         // IPyramidApiService pyramidApiService,
         // IXmlQueryService xmlQueryService,
     )
     {
-        _excelService = excelService;
-        _config = config;
-        _configService = configService;
+        _configuration = configuration;
+        _parseService = parseService;
         _pyramidApiService = pyramidApiService;
         // _xmlQueryService = xmlQueryService;
     }
@@ -39,18 +31,27 @@ public class PointController : Controller
     [HttpPost]
     public async Task<IActionResult> PassportPost()
     {
-        string[] tuId = Request.Form["passportTuInput"].ToString().Replace(" ", "").Split(",");
-
-        var passportPoints = await _pyramidApiService.GetPassportTuArray(tuId);
-
-        var tuPassportData = new TuPassportView()
+        try
         {
-            TuPassportDatas = passportPoints.ToList() ?? new List<TuPassportData>()
-        };
+            string[] tuId = Request.Form["passportTuInput"].ToString().Replace(" ", "").Split(",");
 
-        // Console.WriteLine("🚩🚩🚩 >>> " + string.Join(",", tuPassportData.TuPassportDatas.Select(x => x.TuNumber)));
-        
-        return View("Passport", tuPassportData);
+            var passportPoints = await _pyramidApiService.GetPassportTuArray(tuId);
+
+            var tuPassportData = new TuPassportView()
+            {
+                TuPassportDatas = passportPoints.ToList() ?? new List<TuPassportData>()
+            };
+
+            // Console.WriteLine("🚩🚩🚩 >>> " + string.Join(",", tuPassportData.TuPassportDatas.Select(x => x.TuNumber)));
+
+            return View("Passport", tuPassportData);
+        }
+        catch (InvalidOperationException ioEx)
+        {
+            TempData["Error"] = ioEx.Message;
+        }
+
+        return RedirectToAction("Passport");
     }
 
 
@@ -61,7 +62,8 @@ public class PointController : Controller
         {
             TuPassportDatas = new List<TuPassportData>()
         };
-        
+
+        ViewBag.Error = TempData["Error"];
         return View(passportTuView);
     }
 
@@ -69,23 +71,36 @@ public class PointController : Controller
     [HttpPost]
     public IActionResult CommercialPost()
     {
-        string orgName = Request.Form["selectOrgName"].ToString();
-        string[] tuNumber = Request.Form["tuNumber"].ToString().Replace(" ", "").Split(",");
-
-
-        string path = @"Sources/Reports/NetControl";
-
-        List<CommercialData> pointData = _excelService.ParseDevices(orgName, path, tuNumber);
-
-        var commercialView = new CommercialView()
+        try
         {
-            PointData = pointData,
-            Orgs = _config.GetSection("Pyramid:Orgs").GetChildren()
-                .Select(x => x.Value)
-                .ToArray()!
-        };
+            string orgName = Request.Form["selectOrgName"].ToString();
+            string[] tuNumber = Request.Form["tuNumber"].ToString().Replace(" ", "").Split(",");
 
-        return View("Commercial", commercialView);
+            // bool tekonPassword = Request.Form["tekonPasswordCheckbox"] == "on";
+
+            string path = @"Sources/Reports/NetControl";
+            List<CommercialData> pointData = _parseService.GetNetworkDevices(orgName, path, tuNumber);
+
+            var commercialView = new CommercialView()
+            {
+                PointData = pointData,
+                Orgs = _configuration.GetSection("Pyramid:Orgs").GetChildren()
+                    .Select(x => x.Value)
+                    .ToArray()!
+            };
+
+            return View("Commercial", commercialView);
+        }
+        catch (FileNotFoundException fnfEx)
+        {
+            TempData["Error"] = fnfEx.Message;
+        }
+        catch (NullReferenceException nullRefEx)
+        {
+            TempData["Error"] = nullRefEx.Message;
+        }
+
+        return Redirect($"Commercial");
     }
 
     [HttpGet]
@@ -94,10 +109,12 @@ public class PointController : Controller
         var commercialView = new CommercialView()
         {
             PointData = new List<CommercialData>(),
-            Orgs = _config.GetSection("Pyramid:Orgs").GetChildren()
+            Orgs = _configuration.GetSection("Pyramid:Orgs").GetChildren()
                 .Select(x => x.Value)
                 .ToArray()!
         };
+
+        ViewBag.Error = TempData["Error"];
 
         return View(commercialView);
     }
