@@ -42,7 +42,12 @@ public class PyramidController : Controller
 
     public IActionResult Users()
     {
-        _parseService.GetPyramidUsers();
+        // _parseService.GetPyramidUsers();
+        return View();
+    }
+
+    public IActionResult Licenses()
+    {
         return View();
     }
 
@@ -68,6 +73,12 @@ public class PyramidController : Controller
             "Пользователи АСКУЭ",
             "xlsx");
 
+        _fileOperations.CopyExcelReportsToProject(
+            "App:ZabbixShare",
+            "PyramidLicenses",
+            "Pyramid Information",
+            "xlsx");
+        
         return RedirectToAction("Index");
     }
 

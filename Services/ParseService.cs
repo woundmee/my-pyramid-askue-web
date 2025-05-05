@@ -1,5 +1,7 @@
-﻿using System.Xml.Linq;
+﻿using System.Diagnostics;
+using System.Xml.Linq;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using MyPyramidWeb.Abstractions;
 using MyPyramidWeb.Models.Data;
 
@@ -17,6 +19,16 @@ public class ParseService : IParseService
     }
 
     // Excel //////////////////////////////
+
+    private IXLWorksheet ExcelStartParams(string listName, string pathToFile)
+    {
+        var workbook = new XLWorkbook(pathToFile);
+        var worksheet = workbook.Worksheet(listName);
+
+        return worksheet;
+    }
+
+
     public List<CommercialData> GetNetworkDevices(string org, string pathToExcelFile, string[] tu)
     {
         string path = @$"{pathToExcelFile}/{org.ToLower()}.xlsx";
@@ -35,6 +47,42 @@ public class ParseService : IParseService
         return points;
     }
 
+    
+    public Dictionary<string, int> GetPyramidLicenses()
+    {
+        var pyramidLicenses = new Dictionary<string, int>();
+        
+        foreach (var org in _configService.GetOrgs())
+        {
+            var licenses = ParseExcelDocWithPyramidLicenses(
+                $"Sources/Reports/PyramidLicenses/{org.ToLower()}.xlsx", org);
+
+            foreach (var license in licenses)
+            {
+                pyramidLicenses.Add(license.Key, license.Value);
+            }
+        }
+
+        return pyramidLicenses;
+    }
+
+    private Dictionary<string, int> ParseExcelDocWithPyramidLicenses(string excelFile, string orgName)
+    {
+        if (File.Exists(excelFile))
+        {
+            var licenses = new Dictionary<string, int>();
+            var excelParameters = ExcelStartParams("Лист1", excelFile);
+            
+            int license = int.Parse(excelParameters.Cell("A1").Value.ToString());
+            licenses.Add(orgName, license);
+
+            excelParameters.Workbook.Dispose();
+            return licenses;
+        }
+        return new Dictionary<string, int>();
+        // throw new FileNotFoundException("Файл не существует или задан неправильный путь.");
+    }
+    
     public List<PyramidUserData> GetPyramidUsers()
     {
         var pyramidUsers = new List<PyramidUserData>();
@@ -42,18 +90,23 @@ public class ParseService : IParseService
         foreach (var org in _configService.GetOrgs())
         {
             var users = ParceExcelDocWithPyramidUsers(
-                @$"Sources/Reports/PyramidUsers/{org.ToLower()}.xlsx", org);
+                $"Sources/Reports/PyramidUsers/{org.ToLower()}.xlsx", org);
             foreach (var user in users)
             {
+                if (_configService.GetExcludedMails().Contains(user.Login))
+                    continue;
+
                 pyramidUsers.Add(user);
             }
         }
-
+        
         return pyramidUsers;
     }
 
     private List<PyramidUserData> ParceExcelDocWithPyramidUsers(string excelFile, string orgName)
     {
+        // 🚩 TODO: use my new method ExcelStartParams()
+
         if (File.Exists(excelFile))
         {
             var users = new List<PyramidUserData>();
@@ -70,11 +123,7 @@ public class ParseService : IParseService
                 {
                     string patronymic = GetCellValue(worksheet.Cell(i, 5));
                     string login = GetCellValue(worksheet.Cell(i, 2));
-                    string email = login + "@nornik.ru; ";
-
-                    // 🚩 BUG: некорректно отрабатывает. Починить.
-                    // if (_configService.GetExcludedMails().Contains(login))
-                    //     email = "";
+                    string email = login + "@nornik.ru;";
 
                     var pyramidUser = new PyramidUserData()
                     {

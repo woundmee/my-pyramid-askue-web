@@ -7,6 +7,7 @@ public interface IParseService
     // Excel
     List<CommercialData> GetNetworkDevices(string org, string pathToExcelFile, string[] tu);
     List<PyramidUserData> GetPyramidUsers();
+    Dictionary<string, int> GetPyramidLicenses();
     
     // Xml
     int GetRequestId(string xml);

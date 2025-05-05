@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Sources\Reports\NetControl\" />
+    <Folder Include="Sources\Reports\PyramidLicenses\" />
     <Folder Include="Sources\Reports\PyramidUsers\" />
   </ItemGroup>
 

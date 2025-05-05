@@ -1,0 +1,146 @@
+﻿
+@{
+    // Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+
+<a href="/" class="mb-5 text-decoration-none btn border-secondary link-secondary">← Главное меню</a>
+
+<div class="container text-center text-light">
+
+    <div class="alert bg-danger d-flex align-items-center p-2 ps-3" role="alert" style="border-radius: .7rem">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+             class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+        </svg>
+        <div class="ps-2 text-light">Раздел на стадии разработки. Функционирует только блок лицензий.</div>
+    </div>
+
+
+    <div class="row">
+
+        <div class="col">
+            <div class="w-100 p-4" style="background: #292E34; border-radius: 1rem">
+                @Html.Partial("~/Views/Pyramid/Licenses.cshtml")
+            </div>
+        </div>
+
+
+        <div class="col">
+            <div class="w-100 p-4" style="background: #292E34; border-radius: 1rem">
+                <div class="text-center border-bottom border-secondary pb-4 text-secondary">
+                    
+                    <div class="row">
+                        <div class="col text-start text-uppercase fw-bold">
+                            Информация по серверам
+                        </div>
+                        <div class="col text-end">
+                            <a href="#" class="link-secondary text-decoration-none">Подробнее →</a>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+                <div class="">
+                    <table class="table table-borderless text-light">
+                        <thead class="text-secondary">
+                        <tr>
+                            <th scope="col">Org</th>
+                            <th scope="col">CPU</th>
+                            <th scope="col">OS</th>
+                            <th scope="col">HDD</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>CZ</td>
+                            <td>Intel Xeon 3.4Ghz</td>
+                            <td>Windows Server 2019</td>
+                            <td>239Gb</td>
+                        </tr>
+                        <tr>
+                            <td>RKAY</td>
+                            <td>Intel Xeon 3.4Ghz</td>
+                            <td>Windows Server 2019</td>
+                            <td>239Gb</td>
+                        </tr>
+                        <tr>
+                            <td>NOF</td>
+                            <td>Intel Xeon 3.4Ghz</td>
+                            <td>Windows Server 2019</td>
+                            <td>239Gb</td>
+                        </tr>
+                        <tr>
+                            <td>RZ</td>
+                            <td>Intel Xeon 3.4Ghz</td>
+                            <td>Windows Server 2019</td>
+                            <td>239Gb</td>
+                        </tr>
+                        <tr>
+                            <td>RZ</td>
+                            <td>Intel Xeon 3.4Ghz</td>
+                            <td>Windows Server 2019</td>
+                            <td>239Gb</td>
+                        </tr>
+                        <tr>
+                            <td>RZ</td>
+                            <td>Intel Xeon 3.4Ghz</td>
+                            <td>Windows Server 2019</td>
+                            <td>239Gb</td>
+                        </tr>
+                        <tr>
+                            <td>RZ</td>
+                            <td>Intel Xeon 3.4Ghz</td>
+                            <td>Windows Server 2019</td>
+                            <td>239Gb</td>
+                        </tr>
+                        <tr>
+                            <td>RZ</td>
+                            <td>Intel Xeon 3.4Ghz</td>
+                            <td>Windows Server 2019</td>
+                            <td>239Gb</td>
+                        </tr>
+                        <tr>
+                            <td>RZ</td>
+                            <td>Intel Xeon 3.4Ghz</td>
+                            <td>Windows Server 2019</td>
+                            <td>239Gb</td>
+                        </tr>
+                        <tr>
+                            <td>RZ</td>
+                            <td>Intel Xeon 3.4Ghz</td>
+                            <td>Windows Server 2019</td>
+                            <td>239Gb</td>
+                        </tr>
+                        <tr>
+                            <td>RZ</td>
+                            <td>Intel Xeon 3.4Ghz</td>
+                            <td>Windows Server 2019</td>
+                            <td>239Gb</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row mt-5">
+        <div class="p-5" style="background: #292E34; border-radius: 1rem;">
+            Здесь будут графики КИО и список не работающих ТУ по каждому предприятию
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

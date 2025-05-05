@@ -1,67 +1,91 @@
 
-.text-light-hover:hover
-{
-  color: #f8f9fa !important;
+.text-light-hover:hover {
+    color: #f8f9fa !important;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body, html {
-  height: 100%;
-  margin: 0;
+    height: 100%;
+    margin: 0;
 }
+
 .my-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 94vh;
-  /*background-color: gray;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 94vh;
+    /*background-color: gray;*/
 }
+
 .box {
-  /*width: 100%; !* Ширина блока *!*/
-  /*max-width: 100%; !* Максимальная ширина блока *!*/
-  padding: 20px;
-  /*background-color: #6a1a21;*/
-  color: white;
-  text-align: center;
+    /*width: 100%; !* Ширина блока *!*/
+    /*max-width: 100%; !* Максимальная ширина блока *!*/
+    padding: 20px;
+    /*background-color: #6a1a21;*/
+    color: white;
+    text-align: center;
 
-  max-height: 90vh; /* Максимальная высота блока */
+    max-height: 90vh; /* Максимальная высота блока */
 
-  /* scrollbar */
-  overflow-y: auto;
-  scrollbar-color: royalblue transparent;
-  scrollbar-width: thin;
+    /* scrollbar */
+    overflow-y: auto;
+    scrollbar-color: royalblue transparent;
+    scrollbar-width: thin;
 }
+
+/* === Colors === */
+/* ============= */
+.bg-danger-new {
+    background-color: #FF2663;
+}
+
+.bg-warning-new {
+    background-color: #d4dc16;
+}
+
+.bg-success-new {
+    background-color: #40e680;
+}
+
+.bg-orange {
+    background-color: #FE8F6A;
+}
+
+.bg-lime {
+    background-color: #a2d75e;
+}
+
 
 footer {
-  text-align: center;
-  /*padding: 10px;*/
-  background-color: #333;
-  color: white;
+    text-align: center;
+    /*padding: 10px;*/
+    background-color: #333;
+    color: white;
 }
 
 
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }

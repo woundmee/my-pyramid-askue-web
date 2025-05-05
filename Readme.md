@@ -1,4 +1,4 @@
-﻿![Version](https://img.shields.io/badge/MyPyramid-v1.47.23-6d4aff?style=for-the-badge&logo=csharp&logoColor=white)
+﻿![Version](https://img.shields.io/badge/MyPyramid-v1.50.30-6d4aff?style=for-the-badge&logo=csharp&logoColor=white)
 ![C#](https://img.shields.io/badge/.NET8-6d4aff?style=for-the-badge&logo=csharp&logoColor=white)
 ![C#](https://img.shields.io/badge/C%23-6d4aff?style=for-the-badge&logo=csharp&logoColor=white)
 ![Rider](https://img.shields.io/badge/Rider-000000.svg?style=for-the-badge&logo=Rider&logoColor=white&color=black&labelColor=crimson)

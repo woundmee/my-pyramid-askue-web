@@ -1,0 +1,48 @@
+﻿@inject MyPyramidWeb.Abstractions.IParseService ParseService
+
+<div class="text-center text-secondary mb-3 border-bottom border-secondary pb-4">
+    <div class="row">
+        <div class="col text-start text-uppercase fw-bold">
+            Срок лицензий
+        </div>
+    </div>
+</div>
+
+@foreach (var license in ParseService.GetPyramidLicenses())
+{
+    string widthBar = $"{license.Value + 10}%";
+
+    string bgColor = "";
+    switch (license.Value)
+    {
+        case >= 80:
+            bgColor = "bg-success-new";
+            break;
+        case <= 80 and >= 60:
+            bgColor = "bg-lime";
+            break;
+        case <= 60 and >= 40:
+            bgColor = "bg-warning-new";
+            break;
+        case < 40 and >= 20:
+            bgColor = "bg-orange";
+            break;
+        case < 20:
+            bgColor = "bg-danger-new";
+            break;
+    }
+
+    <div class="mb-2">
+        <div class="row">
+            <div class="col-sm-2 m-auto">@license.Key</div>
+            <div class="col-sm-10 m-auto">
+                <div class="progress rounded-pill" style="background: #1F2326" role="progressbar"
+                     aria-label="Basic example" aria-valuenow="@license.Value" aria-valuemin="0" aria-valuemax="90">
+                    <div class="progress-bar progress-bar-striped @bgColor text-dark"
+                         style="width: @widthBar">@license.Value дн.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
